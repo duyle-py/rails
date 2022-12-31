@@ -11,3 +11,6 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+# TODO should add a func to check how many of queries in a method
+#     def assert_queries(num = 1, options = {}, &block)
