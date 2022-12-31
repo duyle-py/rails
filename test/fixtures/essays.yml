@@ -1,9 +1,15 @@
 david_modest_proposal:
   name: A Modest Proposal
   author_id: 1
+  writer_type: Author
+  writer_id: 1
 
 mary_stay_home:
   name: Stay Home
+  writer_type: Author
+  writer_id: 1
 
 steve_connecting_the_dots:
   name: Connecting The Dots
+  writer_type: Author
+  writer_id: 2

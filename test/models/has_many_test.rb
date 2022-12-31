@@ -18,4 +18,11 @@ class HasManyAssociationsTestPrimaryKeys < ActiveSupport::TestCase
 
     assert_equal Essay.where(author_id: 1), author.essays
   end
+
+  def test_has_many_primary_key_polymorphic
+    author = Author.find(1)
+    assert_not_predicate author.essays_2, :loaded?
+
+    assert_equal Essay.where(writer_id: 1), author.essays_2
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_30_121147) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_31_102218) do
   create_table "authors", force: :cascade do |t|
     t.text "name"
     t.datetime "created_at", null: false
@@ -22,7 +22,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_30_121147) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "writer_id"
+    t.text "writer_type"
     t.index ["author_id"], name: "index_essays_on_author_id"
+    t.index ["writer_id"], name: "index_essays_on_writer_id"
   end
 
   create_table "subscribers", primary_key: "nick", id: :text, force: :cascade do |t|
