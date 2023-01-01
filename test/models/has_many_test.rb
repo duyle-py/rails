@@ -53,4 +53,21 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     len = Post.tagged_with(tag.id).limit(10).size
     assert_operator len, :>, 0
   end
+
+  def test_create_from_association_should_respect_default_scope
+    car = cars(:honda)
+
+    bulb = Bulb.create
+    assert_equal "defaulty", bulb.name
+
+    bulb = car.bulbs.build
+    assert_equal "defaulty", bulb.name
+
+    bulb = car.bulbs.create
+    assert_equal "defaulty", bulb.name
+
+    bulb = car.bulbs.create!
+    assert_equal "defaulty", bulb.name
+  end
+
 end
