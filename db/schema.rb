@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_01_065030) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_01_083529) do
   create_table "authors", force: :cascade do |t|
     t.text "name"
     t.datetime "created_at", null: false
@@ -34,6 +34,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_065030) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.integer "author_id", null: false
+    t.text "title"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_posts_on_author_id"
+  end
+
   create_table "subscribers", primary_key: "nick", id: :text, force: :cascade do |t|
     t.text "name"
     t.datetime "created_at", null: false
@@ -46,6 +55,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_065030) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "taggings", force: :cascade do |t|
+    t.integer "tag_id", null: false
+    t.string "taggable_type", null: false
+    t.integer "taggable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.text "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "essays", "authors"
+  add_foreign_key "posts", "authors"
   add_foreign_key "subscriptions", "subscribers", primary_key: "nick"
+  add_foreign_key "taggings", "tags"
 end

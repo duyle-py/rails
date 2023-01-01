@@ -47,3 +47,10 @@ class HasManyAssociationsTestPrimaryKeys < ActiveSupport::TestCase
     assert_equal 0, author.essays.size
   end
 end
+class HasManyAssociationsTest < ActiveSupport::TestCase
+  def test_sti_subselect_count
+    tag = Tag.first
+    len = Post.tagged_with(tag.id).limit(10).size
+    assert_operator len, :>, 0
+  end
+end
