@@ -20,9 +20,30 @@ class HasManyAssociationsTestPrimaryKeys < ActiveSupport::TestCase
   end
 
   def test_has_many_primary_key_polymorphic
-    author = Author.find(1)
-    assert_not_predicate author.essays_2, :loaded?
+    david = authors(:david)
+    assert_not_predicate david.essays_2, :loaded?
 
-    assert_equal Essay.where(writer_id: 1), author.essays_2
+    assert_equal Essay.where(writer_id: 1), david.essays_2
+  end
+
+  def test_ids_on_association
+    david = people(:david)
+
+    assert_equal Essay.where(writer_id: 1).pluck(:id), david.essay_ids
+  end
+
+  def test_has_many_assignment
+    author = authors(:david)
+    david = people(:david)
+
+    assert_equal ["A Modest Proposal", "Stay Home"], david.essays.map(&:name)
+    david.essays = [Essay.create!(name: "Remote Work", author: author, writer: david)]
+    assert_equal ["Remote Work"], david.essays.map(&:name)
+  end
+
+  def test_blank_record
+    author = Author.new
+    assert_not_predicate author.essays, :loaded?
+    assert_equal 0, author.essays.size
   end
 end
