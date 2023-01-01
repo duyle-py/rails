@@ -70,4 +70,38 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     assert_equal "defaulty", bulb.name
   end
 
+  def test_create_build_from_association_should_respect_passed_arguments_over_default_scope
+    car = Car.create name: "Yamaha"
+
+    bulb = car.bulbs.where(name: "led").build
+    assert_equal "led", bulb.name
+    assert_equal 0, car.bulbs.unscope(where: :name).count
+
+    bulb = car.bulbs.where(name: "led").create
+    assert_equal "led", bulb.name
+    assert_equal 1, car.bulbs.unscope(where: :name).count
+
+
+    bulb = car.bulbs.where(name: "led").create!
+    assert_equal "led", bulb.name
+    assert_equal 2, car.bulbs.unscope(where: :name).count
+
+    bulb = car.bulbs.build(name: "led")
+    assert_equal "led", bulb.name
+
+    bulb = car.bulbs.create(name: "led")
+    assert_equal "led", bulb.name
+
+    bulb = car.bulbs.create!(name: "led")
+    assert_equal "led", bulb.name
+
+    bulb = car.awesome_bulbs.where(frickinawesome: false).build
+    assert_equal false, bulb.frickinawesome
+
+    bulb = car.awesome_bulbs.where(frickinawesome: false).create
+    assert_equal false, bulb.frickinawesome
+
+    bulb = car.awesome_bulbs.where(frickinawesome: false).create!
+    assert_equal false, bulb.frickinawesome
+  end
 end

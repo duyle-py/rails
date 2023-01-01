@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_01_133413) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_01_141842) do
   create_table "authors", force: :cascade do |t|
     t.text "name"
     t.datetime "created_at", null: false
@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_01_133413) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "frickinawesome", default: false
     t.index ["car_id"], name: "index_bulbs_on_car_id"
   end
 
