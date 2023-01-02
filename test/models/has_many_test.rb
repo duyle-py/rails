@@ -135,4 +135,16 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
 
     assert_not_nil Essay.where(id: new_essay.id)
   end
+
+  def test_building_the_associated_object_with_implicit_sti_base_class
+    firm = DependentFirm.new
+    company = firm.companies.build
+    assert_kind_of Company, company
+  end
+
+  def test_building_associated_object_with_explicit_sti_sub_class
+    firm = DependentFirm.new
+    company = firm.companies.build(type: "Client")
+    assert_kind_of Client, company
+  end
 end
