@@ -104,4 +104,35 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     bulb = car.awesome_bulbs.where(frickinawesome: false).create!
     assert_equal false, bulb.frickinawesome
   end
+  def test_create_build_from_association_should_respect_unscoope_over_default_scope
+    car = Car.create name: "Honda"
+
+    bulb = car.bulbs.unscope(where: :name).build
+    assert_nil bulb.name
+
+    bulb = car.bulbs.unscope(where: :name).create
+    assert_nil bulb.name
+
+    bulb = car.bulbs.unscope(where: :name).create!
+    assert_nil bulb.name
+
+    bulb = car.awesome_bulbs.unscope(where: :frickinawesome).build
+    assert_equal false, bulb.frickinawesome
+
+    bulb = car.awesome_bulbs.unscope(where: :frickinawesome).create
+    assert_equal false, bulb.frickinawesome
+
+    bulb = car.awesome_bulbs.unscope(where: :frickinawesome).create!
+    assert_equal false, bulb.frickinawesome
+  end
+
+  def test_delete_all_on_association_clears_scope
+    author = Author.create(name: "Zero")
+    essay = author.essays
+    new_essay = essay.create!(name: "New Year", writer: author)
+    essay.delete_all
+    assert_nil essay.first
+
+    assert_not_nil Essay.where(id: new_essay.id)
+  end
 end
