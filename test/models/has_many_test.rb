@@ -147,4 +147,25 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     company = firm.companies.build(type: "Client")
     assert_kind_of Client, company
   end
+
+  def test_build_and_create_for_association_with_an_array_value
+    author = Author.create name: "Zero"
+
+    data = [{ body: "Birthday"}, {body: "New Year"}]
+    posts = author.posts.where(title: "Happy")
+    posts.build(data)
+
+    assert_equal 2, author.posts.size
+    author.save
+
+    assert_equal 2, author.posts.count
+
+    posts.create(data)
+    assert_equal 4, posts.count
+
+    posts.create!(data)
+    assert_equal 6, posts.count
+
+    assert_equal "Happy", posts.first.title
+  end
 end
