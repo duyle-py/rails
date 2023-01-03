@@ -168,4 +168,14 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
 
     assert_equal "Happy", posts.first.title
   end
+
+  def test_finder_method_with_dirty_target
+    company = companies(:first_firm)
+
+    assert_nil company.clients_of_firm.third
+    new_clients = []
+    new_clients << company.clients_of_firm.build(name: "Client 1")
+    
+    assert_equal new_clients[0], company.clients_of_firm.third
+  end
 end

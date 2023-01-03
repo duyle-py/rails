@@ -12,4 +12,10 @@ class DependentFirm < Company
 end
 
 class Client < Company
+  belongs_to :firm, foreign_key: "client_of"
+end
+
+class Firm < Company
+  has_many :clients_of_firm, foreign_key: "client_of", class_name: "Client"
+
 end

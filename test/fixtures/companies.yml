@@ -1,0 +1,16 @@
+first_firm:
+  id: 1
+  type: Firm
+  name: 37signals
+
+second_client:
+  id: 3
+  type: Client
+  client_of: 1
+  name: Microsoft
+
+another_first_firm_client:
+  id: 11
+  type: Client
+  client_of: 1
+  name: Apex
