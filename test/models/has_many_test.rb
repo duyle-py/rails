@@ -178,4 +178,13 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     
     assert_equal new_clients[0], company.clients_of_firm.third
   end
+
+  def test_update_all_respect_association_scope
+    david = authors(:david)
+    posts = david.posts.where(title: "New Title")    
+    posts.create body: "Post with new body"
+
+    assert_equal 1, posts.count
+    assert_equal 1, posts.update_all(body: "update new body")
+  end
 end
