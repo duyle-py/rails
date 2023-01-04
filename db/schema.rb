@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_02_140020) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_04_042413) do
   create_table "authors", force: :cascade do |t|
     t.text "name"
     t.datetime "created_at", null: false
@@ -38,6 +38,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_02_140020) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "firm_id"
+    t.text "firm_name"
+    t.index ["firm_id"], name: "index_companies_on_firm_id"
   end
 
   create_table "essays", force: :cascade do |t|
@@ -95,6 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_02_140020) do
   end
 
   add_foreign_key "bulbs", "cars"
+  add_foreign_key "companies", "companies", column: "firm_id"
   add_foreign_key "essays", "authors"
   add_foreign_key "posts", "authors"
   add_foreign_key "subscriptions", "subscribers", primary_key: "nick"

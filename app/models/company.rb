@@ -16,6 +16,7 @@ class Client < Company
 end
 
 class Firm < Company
+  has_many :clients, -> { order :id }
   has_many :clients_of_firm, foreign_key: "client_of", class_name: "Client"
-
+  has_many :plain_clients, class_name: "Client"
 end

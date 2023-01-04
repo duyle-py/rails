@@ -187,4 +187,17 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     assert_equal 1, posts.count
     assert_equal 1, posts.update_all(body: "update new body")
   end
+
+  def test_counting
+    assert_equal 3, Firm.first.clients.count
+  end
+
+  def test_counting_with_single_hash
+    assert_equal 1, Firm.first.plain_clients.where(name: "Apex").count
+  end
+
+  def test_finding_with_block
+    author = Author.find {|a| a.id > 0}
+    assert_operator author.posts.count(:id).size, :>, 0
+  end
 end
