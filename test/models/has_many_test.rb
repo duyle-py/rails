@@ -196,8 +196,41 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     assert_equal 1, Firm.first.plain_clients.where(name: "Apex").count
   end
 
+  def test_find_many_with_merged_options
+    cl = Firm.first.limited_clients
+    assert_equal 1, cl.size
+    assert_equal 1, cl.to_a.size
+    assert_equal 3, cl.limit(nil).to_a.size
+  end
+
+  def test_find_should_append_to_association_order
+    ordered_clients = companies(:first_firm).clients_sorted_desc.order("companies.id asc")
+    assert_equal ["id DESC", "companies.id asc"], ordered_clients.order_values
+  end
+
+  def test_dynamic_find_should_respect_association_order
+    assert_equal companies(:another_first_firm_client), companies(:first_firm).clients_sorted_desc.first
+    assert_equal companies(:another_first_firm_client), companies(:first_firm).clients_sorted_desc.find_by_type("Client")
+  end
+
   def test_finding_with_block
     author = Author.find {|a| a.id > 0}
     assert_operator author.posts.count(:id).size, :>, 0
+  end
+
+  def test_find_ids
+    firm = Firm.first
+
+    assert_kind_of Client, firm.clients.find(2)
+
+    client_arr = firm.clients.find([2, 3])
+    assert_kind_of Array, client_arr
+    assert_equal 2, client_arr.size
+
+    client_arr = firm.clients.find(2, 3)
+    assert_kind_of Array, client_arr
+    assert_equal 2, client_arr.size
+
+    assert_raise(ActiveRecord::RecordNotFound) { firm.clients.find(2, 99) }
   end
 end
