@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_04_042413) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_06_090557) do
   create_table "authors", force: :cascade do |t|
     t.text "name"
     t.datetime "created_at", null: false
@@ -66,6 +66,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_04_042413) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "legacy_comments_count"
+    t.text "type"
     t.index ["author_id"], name: "index_posts_on_author_id"
   end
 

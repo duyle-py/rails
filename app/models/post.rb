@@ -5,3 +5,6 @@ class Post < ApplicationRecord
 
   scope :tagged_with, ->(id) { joins(:taggings).where(taggings: { tag_id: id }) }
 end
+
+class SpecialPost < Post; end
+class StiPost < Post; end

@@ -21,4 +21,6 @@ class Firm < Company
   has_many :plain_clients, class_name: :Client
   has_many :limited_clients, -> { limit 1 }, class_name: :Client
   has_many :clients_sorted_desc, -> { order "id DESC" }, class_name: :Client
+  has_many :clients_grouped_by_id, -> { group("firm_id").select("firm_id") }, class_name: :Client
+  has_many :clients_grouped_by_name, -> { group("name").select("name") }, class_name: :Client
 end

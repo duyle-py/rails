@@ -233,4 +233,30 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
 
     assert_raise(ActiveRecord::RecordNotFound) { firm.clients.find(2, 99) }
   end
+
+  def test_find_all_sanitized
+    firm = Firm.first
+    summit = firm.clients.where("name = 'Summit'").to_a
+    assert_equal summit, firm.clients.where("name = ?", "Summit").to_a
+    assert_equal summit, firm.clients.where("name = :name", name: "Summit").to_a
+  end
+
+  def test_find_grouped
+    clients = Client.all.merge!(where: "firm_id = 1").to_a
+    assert_equal 3, clients.size
+
+    grouped_clients = Client.all.merge!(where: "firm_id = 1", group: "firm_id", select: "firm_id, count(id) as clients_count").to_a
+    assert_equal 1, grouped_clients.size
+  end
+
+  def test_find_scope_group
+    firm = companies(:first_firm)
+    assert_equal 1, firm.clients_grouped_by_id.size
+    assert_equal 3, firm.clients_grouped_by_name.size
+  end
+
+  def test_find_scoped_grouped_having
+    assert_equal 2, authors(:david).popular_grouped_posts.length
+    assert_equal 0, authors(:mary).popular_grouped_posts.length
+  end
 end
