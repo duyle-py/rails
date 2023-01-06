@@ -259,4 +259,11 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     assert_equal 2, authors(:david).popular_grouped_posts.length
     assert_equal 0, authors(:mary).popular_grouped_posts.length
   end
+
+  def test_delete
+    clients = companies(:first_firm).clients_of_firm
+    assert_equal 2, clients.size
+    assert_equal 1, clients.delete(clients.first).size
+    assert_equal 1, clients.reload.size
+  end
 end
