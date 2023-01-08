@@ -266,4 +266,26 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     assert_equal 1, clients.delete(clients.first).size
     assert_equal 1, clients.reload.size
   end
+
+  def test_delete_collection
+    clients = companies(:first_firm).clients_of_firm
+    clients.create name: "New Name"
+    assert_equal 3, clients.length
+    clients.delete([clients[0], clients[1], clients[2]])
+    assert_equal 0, companies(:first_firm).clients_of_firm.size 
+  end
+
+  def test_transactions_when_deleting_persisted
+    one = Client.new name: "One"
+    zero = Client.new name: "Zero"
+
+    companies(:first_firm).clients_of_firm = [one, zero]
+
+    assert_equal 2, companies(:first_firm).clients_of_firm.size
+  end
+
+  def test_includes_order_in_scoped_association
+    david = authors(:david)
+    assert_not_nil david.posts_with_comments_sorted
+  end
 end

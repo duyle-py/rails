@@ -1,0 +1,59 @@
+greetings:
+  id: 1
+  post_id: 1
+  body: Thank you for the welcome
+
+more_greetings:
+  id: 2
+  post_id: 1
+  body: Thank you again for the welcome
+
+does_it_hurt:
+  id: 3
+  post_id: 2
+  body: Don't think too hard
+
+eager_sti_on_associations_vs_comment:
+  id: 5
+  post_id: 4
+  body: Very Special type
+
+eager_sti_on_associations_s_comment1:
+  id: 6
+  post_id: 4
+  body: Special type
+
+eager_sti_on_associations_s_comment2:
+  id: 7
+  post_id: 4
+  body: Special type 2
+
+eager_sti_on_associations_comment:
+  id: 8
+  post_id: 4
+  body: Normal type
+
+check_eager_sti_on_associations:
+  id: 9
+  post_id: 5
+  body: Normal type
+
+check_eager_sti_on_associations2:
+  id: 10
+  post_id: 5
+  body: Special Type
+
+eager_other_comment1:
+  id: 11
+  post_id: 7
+  body: go wild
+
+sub_special_comment:
+  id: 12
+  post_id: 4
+  body: Sub special comment
+
+recursive_association_comment:
+  id: 13
+  post_id: 5
+  body: afrase

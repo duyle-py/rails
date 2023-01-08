@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_06_090557) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_08_080948) do
   create_table "authors", force: :cascade do |t|
     t.text "name"
     t.datetime "created_at", null: false
@@ -30,6 +30,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_06_090557) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_comments_on_post_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -100,6 +108,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_06_090557) do
   end
 
   add_foreign_key "bulbs", "cars"
+  add_foreign_key "comments", "posts"
   add_foreign_key "companies", "companies", column: "firm_id"
   add_foreign_key "essays", "authors"
   add_foreign_key "posts", "authors"
